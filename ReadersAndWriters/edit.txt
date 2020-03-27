@@ -1,0 +1,12 @@
+1. Procesy nie czekają już aktywnie na wolne miejsce na półce. Opowiedzialny
+  jest za to semafor nr4.
+2. Czytelnicy nie czekają już aktywnie na interesujące ich dzieło (flaga
+  IPC_NOWAIT została usunięta z odbierania zamówienia).
+3. Procesy mogą zmienić rolę tylko w ten sposób, aby zawsze był przenajmniej
+  jeden czytelnik i jeden pisarz. Zapobiega to sytuacji w której wszystkie
+  procesy czekałyby na wydanie dzieła lub miejsce na półce.
+4. Czytelnicy nie mogą zmienić roli gdy mają coś do odczytu. Zapobiega to
+  sytuacji w której takie procesy po zmianie roli zablokują się na semaforze
+  nr4 jednocześnie uniemożliwiając zwolnienie miejsca na półce Z drugiej strony
+  jest to praktyczne rozwiązanie ponieważ jeżeli proces jest zainteresowany
+  jakąś treścią to lepiej żeby ją odczytał od razu. 

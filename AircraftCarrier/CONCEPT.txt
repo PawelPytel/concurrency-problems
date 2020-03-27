@@ -1,0 +1,14 @@
+Lotniskowiec
+1.Wątek główny służy do uruchomienia wątków pobocznych. Jeden wątek poboczny
+wywołuje funkcję, która wyświetla na wyjściu komunikat o wypadku w sytuacji w
+której więcej niż jeden samolot będzie na pasie startowym w tym samym momencie.
+Kolejne wątki odpowiadają wizytom samolotów na lotniskowcu.
+2.Funkcja samolot składa się z lądowania, odpoczynku na lotniskowcu i startu z
+lotniskowca. Cała procedura lądowania i startu jest zamknięta w muteksie pas,
+aby zapobiec wypadkowi. Dodatkowo lądowanie może być blokowane zmienną warunkową
+gdy nie ma miejsca na lotniskowcu, a startowanie gdy na lotniskowcu jest mało
+samolotów a najmniej jeden oczekuje na lądowanie. Sygnał wysyłany jest do
+zmiennej mało gdy liczba samolotów będzie dostatecznie duża, a do zmiennej dużo
+gdy zwolni się gdy lotniskowiec przestaje być pełny.
+Modyfikacja zmiennych globalnych jest chroniona dodatkowym muteksem, ponieważ
+funkcja ma dostęp do nich również poza muteksem pas.

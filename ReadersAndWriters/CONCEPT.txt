@@ -1,0 +1,35 @@
+Problem czytelników i pisarzy
+Koncepcja rozwiązania
+1.Proces pisarza
+  Ilość książek na półce jest dostępna w pamięci współdzielonej. Pisarz
+  sprawdza czy jest wolne miejsce na półce (ilość książek jest różna od
+  pojemności półki) po czym wchodzi do sekcji krytycznej, jeśli żaden inny
+  proces w niej nie jest (jest to kontrolowane przez semafor).
+  Następnie szuka pustego miejsca na półce i jeżeli takowe istnieje, pisze
+  dzieło i umieszcza je na półce w formie komunikatu o typie takim jak pozycja
+  na półce przez niego zajęta. Następnie przegląda które procesy są aktualnie
+  w roli czytelnika i wysyła komunikaty do drugiej kolejki o typach takich jak
+  identyfikatory danych czytelników. Zwiększa też liczbę książek na półce i
+  liczbę procesów zainteresowanych daną pozycją (dane te są w pamięci
+  współdzielonej). Na końcu zwalnia semafor, czyli udostępnia czytelnię innym
+  procesom i przechodzi w fazę relaksu(losowo długą). Na końcu fazy relaksu
+  może zmienić rolę.
+2.Proces czytelnika
+  Czytelnik najpierw sprawdza czy jest w ogóle sens wchodzić do czytelni(czy
+  liczba książek na półce jest różna od zera). Po wejściu zwiększa liczbę
+  telników w pamięci współdzielonej. Jeżeli jest pierwszym czytelnikiem,
+  opuszcza semafor nr 0, blokując w ten sposób dostęp pisarzom. Następnie szuka
+  komunikatu o typie odpowiadającym jego identyfikatorowi mówiącym o tym, że
+  ma przeczytać książkę z danej pozycji. Jeżeli takowy znajdzie, odbiera go i
+  czyta książkę z pozycji podanej przez treść komunikatu. Robi to poprzez
+  odbiór komunikatu z kolejki symbolizującej półkę o typie odpowiadającym
+  pozycji. Po przeczytaniu od razu odkłada książkę na tą samą pozycję.
+  Potem zmniejsza ilość procesów zainteresowanych daną pozycją i sprawdz czy
+  nie był ostatnim procesem zainteresowanym tym dziełem. Jeżeli tak, usuwa
+  dzieło z półki poprzez odbiór komunikatu i tym samym zwalnia miejsce na półce.
+  Na końcu wychodzi z czytelni, zmniejszając liczbę czytelników w niej
+  przebywających i przechodzi w fazę relaksu. Jeżeli wychodzi jako ostatni,
+  podnosi semafor nr 0, dając szansę pisarzowi. Podobnie jak pisarz, na końcu
+  fazy relaksu może zmienić rolę. W procesie czytelnika semafor nr 1 odpowiada
+  za synchronizację modyfikacji danych znajdujących się w pamięci
+  współdzielonej.
